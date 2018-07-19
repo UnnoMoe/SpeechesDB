@@ -16,10 +16,12 @@ public class speachtootext_main {
 		// TODO Auto-generated method stub
    
 	    SpeechToText service = new SpeechToText();
-	    service.setUsernameAndPassword("0226adf9-eb9b-497f-8d2a-0dd6b7277ade", "RBTQupjk2hom");
+	    service.setUsernameAndPassword("1821004", "1821004");
 
 	    File audio = new File("audio/shop_oldman01_10-bukibougu.wav");
 	    RecognizeOptions options = null;
+		MySQL mysql = new MySQL();
+
 		try {
 			options = new RecognizeOptions.Builder()
 					.model("ja-JP_BroadbandModel")
@@ -38,11 +40,13 @@ public class speachtootext_main {
 	        
 	        try {
 				JsonNode node = mapper.readTree(s);
-				String transcript1  = node.get("results").get(0).get("alternatives").get(0).get("transcript").toString();
-				System.out.println("transcript : " + transcript1);
+				String text  = node.get("results").get(0).get("alternatives").get(0).get("transcript").toString();
+				System.out.println("transcript : " + text);
 				double confidence = node.get("results").get(0).get("alternatives").get(0).get("confidence").asDouble();
 				System.out.println("confidence : " + confidence);
-			
+				mysql.updateImage(text,confidence); //
+
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
